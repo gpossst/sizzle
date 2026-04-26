@@ -1,0 +1,28 @@
+{
+  "projectName": "web",
+  "mode": "file-router",
+  "typescript": true,
+  "packageManager": "bun",
+  "includeExamples": false,
+  "tailwind": true,
+  "addOnOptions": {},
+  "envVarValues": {
+    "CONVEX_DEPLOYMENT": "sizzle",
+    "VITE_CONVEX_URL": "https://basic-condor-757.convex.cloud"
+  },
+  "git": false,
+  "install": true,
+  "routerOnly": false,
+  "version": 1,
+  "framework": "react",
+  "chosenAddOns": [
+    "eslint",
+    "nitro",
+    "better-auth",
+    "shadcn",
+    "ai",
+    "sentry",
+    "convex",
+    "store"
+  ]
+}

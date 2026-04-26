@@ -1,0 +1,29 @@
+# Dependencies & caches
+node_modules
+**/.cache
+
+# Git & editor
+.git
+.gitignore
+**/.DS_Store
+.cursor
+.vscode
+
+# Local env (inject at runtime with --env-file)
+.env
+.env.local
+.env.*.local
+
+# Build artifacts (rebuilt inside the image)
+.output
+dist
+
+# Tests & tooling noise
+coverage
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+
+# Docs (not needed to build)
+README.md
