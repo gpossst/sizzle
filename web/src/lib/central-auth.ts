@@ -37,11 +37,28 @@ function readOptionalEnv(...names: string[]) {
   return undefined
 }
 
+function normalizeAppBaseUrl(url: string) {
+  return url.replace(/\/+$/, '')
+}
+
+/** OAuth redirect must match what Alder SSO allows; set explicitly or via SIZZLE_APP_URL. */
+function getRedirectUri(): string {
+  const explicit = process.env.ALDER_SSO_REDIRECT_URI
+  if (explicit) return explicit
+  const appUrl = process.env.SIZZLE_APP_URL
+  if (appUrl) {
+    return `${normalizeAppBaseUrl(appUrl)}/auth/callback`
+  }
+  throw new Error(
+    'Missing auth callback URL: set SIZZLE_APP_URL (e.g. https://sizzle.alder.so) or ALDER_SSO_REDIRECT_URI',
+  )
+}
+
 function getSsoConfig(): SsoConfig {
   return {
     baseUrl: readRequiredEnv('ALDER_SSO_BASE_URL'),
     source: process.env.ALDER_SSO_SOURCE ?? 'sizzle',
-    redirectUri: readRequiredEnv('ALDER_SSO_REDIRECT_URI'),
+    redirectUri: getRedirectUri(),
     exchangeSecret: readOptionalEnv(
       'ALDER_SSO_EXCHANGE_SECRET',
       'SSO_EXCHANGE_SHARED_SECRET',

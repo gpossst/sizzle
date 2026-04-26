@@ -40,6 +40,7 @@ describe('central sso auth flow', () => {
 
   afterEach(() => {
     vi.restoreAllMocks()
+    delete process.env.SIZZLE_APP_URL
   })
 
   it('redirects login attempts to Alder SSO authorize', () => {
@@ -54,6 +55,28 @@ describe('central sso auth flow', () => {
     )
     expect(location).toContain('state=')
     expect(response.headers.get('set-cookie')).toContain('sizzle_auth_state=')
+  })
+
+  it('derives redirect URI from SIZZLE_APP_URL when ALDER_SSO_REDIRECT_URI is unset', () => {
+    delete process.env.ALDER_SSO_REDIRECT_URI
+    process.env.SIZZLE_APP_URL = 'https://sizzle.alder.so'
+
+    const response = createLoginRedirectResponse()
+    const location = response.headers.get('location')
+
+    expect(location).toContain(
+      'redirect_uri=https%3A%2F%2Fsizzle.alder.so%2Fauth%2Fcallback',
+    )
+  })
+
+  it('prefers ALDER_SSO_REDIRECT_URI over SIZZLE_APP_URL', () => {
+    process.env.ALDER_SSO_REDIRECT_URI = 'https://custom.example/auth/callback'
+    process.env.SIZZLE_APP_URL = 'https://sizzle.alder.so'
+
+    const response = createLoginRedirectResponse()
+    expect(response.headers.get('location')).toContain(
+      'redirect_uri=https%3A%2F%2Fcustom.example%2Fauth%2Fcallback',
+    )
   })
 
   it('successful callback exchanges token and issues local Sizzle session', async () => {
