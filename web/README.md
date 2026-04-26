@@ -19,12 +19,14 @@ bun run build
 
 ## Production (Docker)
 
-Use the `web/` folder as the Docker build context (this folder contains the Dockerfile, `package.json`, and `bun.lock`):
+Use this Dockerfile from the **repo root** context and it will still copy only files from `web/`:
 
 ```bash
-docker build -t sizzle-web .
-docker run --rm -p 3000:3000 --env-file .env.local sizzle-web
+docker build -f web/Dockerfile -t sizzle-web .
+docker run --rm -p 3000:3000 --env-file web/.env.local sizzle-web
 ```
+
+If your host supports setting the service root directory to `web`, that works too (same Dockerfile).
 
 Build uses **Bun** for install and build (`bun install --frozen-lockfile`, `bun run build`). The production server is the Nitro **Node** preset (`node … .output/server/index.mjs`), same as `bun run start` locally.
 

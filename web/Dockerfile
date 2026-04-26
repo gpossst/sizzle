@@ -6,10 +6,12 @@ FROM oven/bun:1.3.2-debian AS builder
 
 WORKDIR /app
 
-COPY package.json bun.lock ./
+# Monorepo-safe: this Dockerfile can be used from repo-root context (`-f web/Dockerfile`)
+# while still only reading files from the `web/` folder.
+COPY web/package.json web/bun.lock ./
 RUN bun install --frozen-lockfile
 
-COPY . .
+COPY web/ .
 RUN bun run build
 
 # -----------------------------------------------------------------------------
