@@ -19,17 +19,7 @@ bun run build
 
 ## Production (Docker)
 
-The git repository root is the parent of this folder (`sizzle/`), and only `web/` contains `package.json`. **Cloud builders that use the repo root as the Docker context** must use the `Dockerfile` at the repository root (it copies `web/package.json` and `web/bun.lock`). Building from `web/` with that root Dockerfile path set but context still at the repo root is what causes `"/package.json": not found`.
-
-From the **repository root** (recommended for deploy):
-
-```bash
-cd ..
-docker build -t sizzle-web .
-docker run --rm -p 3000:3000 --env-file web/.env.local sizzle-web
-```
-
-From **`web/`** only (local):
+Use the `web/` folder as the Docker build context (this folder contains the Dockerfile, `package.json`, and `bun.lock`):
 
 ```bash
 docker build -t sizzle-web .

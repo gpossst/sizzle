@@ -1,9 +1,4 @@
 # syntax=docker/dockerfile:1
-#
-# For builds where the Docker context is the git repo root (e.g. many hosted
-# builders), use ../Dockerfile instead — this file expects context = web/.
-# -----------------------------------------------------------------------------
-
 # -----------------------------------------------------------------------------
 # Build the TanStack Start / Nitro production bundle (Bun matches packageManager)
 # -----------------------------------------------------------------------------
