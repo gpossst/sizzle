@@ -7,7 +7,7 @@ import ConvexProvider from '../integrations/convex/provider'
 
 import appCss from '../styles.css?url'
 
-const SITE_TITLE = 'Sizzle — AI recipe generator'
+const SITE_TITLE = 'Sizzle — Clean, easy, recipe creation'
 const SITE_DESCRIPTION =
   'Generate custom recipes with AI, save your favorites, and build grocery lists. Sizzle helps you cook with ingredients you have and goals you set.'
 
@@ -97,9 +97,7 @@ export const Route = createRootRoute({
         rel: 'manifest',
         href: '/manifest.json',
       },
-      ...(origin
-        ? [{ rel: 'canonical' as const, href: `${origin}/` }]
-        : []),
+      ...(origin ? [{ rel: 'canonical' as const, href: `${origin}/` }] : []),
     ]
 
     return { meta, links }
