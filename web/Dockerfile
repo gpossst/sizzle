@@ -19,9 +19,10 @@ RUN bun run build
 RUN rm -rf node_modules && bun install --frozen-lockfile --production
 
 # -----------------------------------------------------------------------------
-# Run the Node server preset output (see package.json "start")
+# Run with Bun: Nitro is built via `bun run build`, so Rollup may fold `typeof Bun`
+# for the Bun server path. Node would then throw ReferenceError: Bun is not defined.
 # -----------------------------------------------------------------------------
-FROM node:22-bookworm-slim AS runner
+FROM oven/bun:1.3.2-debian AS runner
 
 WORKDIR /app
 
@@ -35,4 +36,4 @@ COPY --from=builder /app/.output ./.output
 
 EXPOSE 3000
 
-CMD ["node", "--import", "./.output/server/instrument.server.mjs", ".output/server/index.mjs"]
+CMD ["bun", "--preload", "./.output/server/instrument.server.mjs", "./.output/server/index.mjs"]

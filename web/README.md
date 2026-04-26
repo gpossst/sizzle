@@ -28,7 +28,7 @@ docker run --rm -p 3000:3000 --env-file web/.env.local sizzle-web
 
 If your host supports setting the service root directory to `web`, that works too (same Dockerfile).
 
-Build uses **Bun** for install and build (`bun install --frozen-lockfile`, `bun run build`). The production server is the Nitro **Node** preset (`node … .output/server/index.mjs`), same as `bun run start` locally.
+Build uses **Bun** for install and build (`bun install --frozen-lockfile`, `bun run build`). Run the production server with **Bun** as well (`bun run start`): the Nitro bundle is produced under Bun, so running it with Node can fail with `ReferenceError: Bun is not defined`.
 
 The container does **not** load `.env` files automatically—you must pass variables with `--env-file`, `-e`, or your orchestrator’s secret/config mechanism. Set whatever your deployment needs (for example `BETTER_AUTH_SECRET`, API keys, `DATABASE_URL`, `VITE_*` / server env vars per [`.env.example`](.env.example) and your app config).
 
