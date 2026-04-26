@@ -12,6 +12,10 @@ COPY web/package.json web/bun.lock ./
 RUN bun install --frozen-lockfile
 
 COPY web/ .
+# Vite inlines `import.meta.env.VITE_CONVEX_URL` in client assets at build time.
+# Pass the same value as a runtime env on the container for SSR (`process.env`).
+ARG VITE_CONVEX_URL
+ENV VITE_CONVEX_URL=$VITE_CONVEX_URL
 RUN bun run build
 
 # `instrument.server.mjs` is copied as source and imports `@sentry/tanstackstart-react`.

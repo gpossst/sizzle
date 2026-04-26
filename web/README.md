@@ -22,9 +22,11 @@ bun run build
 Use this Dockerfile from the **repo root** context and it will still copy only files from `web/`:
 
 ```bash
-docker build -f web/Dockerfile -t sizzle-web .
+docker build -f web/Dockerfile --build-arg VITE_CONVEX_URL="https://YOUR_DEPLOYMENT.convex.cloud" -t sizzle-web .
 docker run --rm -p 3000:3000 --env-file web/.env.local sizzle-web
 ```
+
+`VITE_CONVEX_URL` must be present **at image build time** (so Vite can embed it in the browser bundle) and **at container runtime** (so SSR can read `process.env.VITE_CONVEX_URL`). Hosted platforms usually map the same secret or env var into both build and run.
 
 If your host supports setting the service root directory to `web`, that works too (same Dockerfile).
 
