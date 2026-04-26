@@ -323,6 +323,11 @@ export default function RecipeGenForm({
       return
     }
 
+    if (isGuest) {
+      setShowSignInModal(true)
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
@@ -376,6 +381,47 @@ export default function RecipeGenForm({
 
   return (
     <section className="relative flex min-h-0 flex-1 flex-col overflow-hidden">
+      {isGuest && showSignInModal && pageView === 'generation' ? (
+        <div
+          className="absolute inset-0 z-50 flex items-end justify-center bg-background/75 p-4 pb-6 backdrop-blur-[2px] sm:pb-10"
+          role="presentation"
+          onClick={() => setShowSignInModal(false)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="sign-in-modal-title"
+            className="w-full max-w-md border border-border bg-background p-5 shadow-lg sm:p-6"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <h2
+              id="sign-in-modal-title"
+              className="font-heading text-xl font-black sm:text-2xl"
+            >
+              Sign in to generate recipes
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              Sign in to create recipes with Sizzle. Sizzle is owned by Alder,
+              and all Alder apps use one account—sign in once to use your Alder
+              profile across apps.
+            </p>
+            <div className="mt-5">
+              <Button
+                className="w-full rounded-none font-heading font-black"
+                asChild
+              >
+                <a
+                  ref={signInModalPrimaryRef}
+                  href="/auth/login"
+                  className="inline-flex"
+                >
+                  Sign In
+                </a>
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
       {generationLimitMessage ? (
         <div className="overflow-hidden border-b border-border">
           <div

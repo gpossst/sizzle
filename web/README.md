@@ -19,14 +19,26 @@ bun run build
 
 ## Production (Docker)
 
-Build and run a production image (multi-stage: Bun build, Node runtime on port `3000`):
+The git repository root is the parent of this folder (`sizzle/`), and only `web/` contains `package.json`. **Cloud builders that use the repo root as the Docker context** must use the `Dockerfile` at the repository root (it copies `web/package.json` and `web/bun.lock`). Building from `web/` with that root Dockerfile path set but context still at the repo root is what causes `"/package.json": not found`.
+
+From the **repository root** (recommended for deploy):
+
+```bash
+cd ..
+docker build -t sizzle-web .
+docker run --rm -p 3000:3000 --env-file web/.env.local sizzle-web
+```
+
+From **`web/`** only (local):
 
 ```bash
 docker build -t sizzle-web .
 docker run --rm -p 3000:3000 --env-file .env.local sizzle-web
 ```
 
-The container does **not** load `.env.local` automatically—you must pass variables with `--env-file`, `-e`, or your orchestrator’s secret/config mechanism. Set whatever your deployment needs (for example `BETTER_AUTH_SECRET`, API keys, `DATABASE_URL`, `VITE_*` / server env vars per [`.env.example`](.env.example) and your app config).
+Build uses **Bun** for install and build (`bun install --frozen-lockfile`, `bun run build`). The production server is the Nitro **Node** preset (`node … .output/server/index.mjs`), same as `bun run start` locally.
+
+The container does **not** load `.env` files automatically—you must pass variables with `--env-file`, `-e`, or your orchestrator’s secret/config mechanism. Set whatever your deployment needs (for example `BETTER_AUTH_SECRET`, API keys, `DATABASE_URL`, `VITE_*` / server env vars per [`.env.example`](.env.example) and your app config).
 
 Override the listen port if needed: `-e PORT=8080 -p 8080:8080`.
 
