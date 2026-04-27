@@ -3,6 +3,7 @@ import { Button } from '#/components/ui/button'
 import {
   RiBookletLine,
   RiCheckboxMultipleLine,
+  RiGithubFill,
   RiLoginBoxLine,
   RiLogoutBoxRLine,
   RiMoonLine,
@@ -69,10 +70,7 @@ export default function BetterAuthHeader({
           data-active={pageView === 'saved'}
           onClick={() => onSelectPageView('saved')}
         >
-          <RiBookletLine
-            aria-hidden="true"
-            className="ml-1 size-4 shrink-0"
-          />
+          <RiBookletLine aria-hidden="true" className="ml-1 size-4 shrink-0" />
           <span className="ml-0 max-w-0 overflow-hidden whitespace-nowrap font-heading font-bold opacity-0 transition-all duration-200 group-hover:ml-2 group-hover:max-w-32 group-hover:opacity-100 group-focus-visible:ml-2 group-focus-visible:max-w-32 group-focus-visible:opacity-100">
             Saved Recipes
           </span>
@@ -93,6 +91,23 @@ export default function BetterAuthHeader({
             Grocery List
           </span>
         </Button>
+        <Button
+          variant="outline"
+          className="group relative z-30 h-10 w-10 border-t-0 hover:bg-secondary hover:text-secondary-foreground hover:w-44 hover:px-3 focus-visible:w-44 focus-visible:px-3 focus-visible:text-secondary-foreground"
+          asChild
+        >
+          <a
+            href="https://github.com/gpossst/sizzle"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="View source on GitHub"
+          >
+            <RiGithubFill aria-hidden="true" className="ml-1 size-4 shrink-0" />
+            <span className="ml-0 max-w-0 overflow-hidden whitespace-nowrap font-heading font-bold opacity-0 transition-all duration-200 group-hover:ml-2 group-hover:max-w-32 group-hover:opacity-100 group-focus-visible:ml-2 group-focus-visible:max-w-32 group-focus-visible:opacity-100">
+              GitHub
+            </span>
+          </a>
+        </Button>
       </div>
     </div>
   )
@@ -107,7 +122,9 @@ export default function BetterAuthHeader({
             variant="outline"
             className="group relative z-30 h-10 w-10 border-b-0 hover:bg-secondary"
             aria-label="Toggle theme"
-            onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+            onClick={() =>
+              setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
+            }
           >
             {mounted && resolvedTheme === 'dark' ? (
               <RiSunLine aria-hidden="true" className="ml-1 size-4 shrink-0" />
